@@ -90,6 +90,7 @@ def menu():
     menu_bc = pygame.transform.scale(menu_bc, (1080, 540))
     clock = pygame.time.Clock()
     mus = pygame.mixer.Sound('sprites_Back/Музыка/Меню.mp3')
+    pygame.mouse.set_cursor((0, 0), pygame.image.load('data/cur.png'))
     #mus.play()
 
     run = True
