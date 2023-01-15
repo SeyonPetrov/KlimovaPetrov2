@@ -32,7 +32,7 @@ def difficulty_levels():
     mix.set_volume(0.09)
     mix.play(-1)
 
-    text = pygame.font.Font(None, 30).render('ВЫБЕРИТЕ УРОВЕНЬ СЛОЖНОСТИ', True, 'bisque')
+    text = pygame.font.Font(None, 30).render('ВЫБЕРИТЕ УРОВЕНЬ СЛОЖНОСТИ', True, (106, 240, 249))
 
     while True:
         screen.blit(space, (0, 0))
@@ -49,6 +49,8 @@ def difficulty_levels():
         lava.update()
         gas.update()
         hole.update()
+
+        color = pygame.Color(106, 240, 249)
         n = 0
         for s in spr:
             pos = pygame.mouse.get_pos()
@@ -57,38 +59,38 @@ def difficulty_levels():
                 if 180 < pos[0] < 360:
 
                     screen.blit(pygame.font.Font(None, 29).render('ЛЕГКО', True, 'green'), (490, 50))
-                    pygame.draw.line(screen, 'aquamarine2', (213, 200), (288, 200), 3)
-                    pygame.draw.line(screen, 'aquamarine2', (218, 340), (288, 340), 3)
-                    screen.blit(pygame.font.Font(None, 22).render('ВЕЛОКИТЕР', True, 'aquamarine2'), (203, 180))
-                    screen.blit(pygame.font.Font(None, 22).render('СПУТНИК', True, 'aquamarine2'), (217, 350))
+                    pygame.draw.line(screen, color, (213, 200), (288, 200), 3)
+                    pygame.draw.line(screen, color, (218, 340), (288, 340), 3)
+                    screen.blit(pygame.font.Font(None, 22).render('ВЕЛОКИТЕР', True, color), (203, 180))
+                    screen.blit(pygame.font.Font(None, 22).render('СПУТНИК', True, color), (217, 350))
                     if push:
                         sounds.play()
                         n = 1
                 if 360 < pos[0] < 540:
                     screen.blit(pygame.font.Font(None, 29).render('НОРМАЛЬНО', True, 'yellow'), (465, 50))
-                    pygame.draw.line(screen, 'aquamarine2', (412, 200), (488, 200), 3)
-                    pygame.draw.line(screen, 'aquamarine2', (412, 340), (488, 340), 3)
-                    screen.blit(pygame.font.Font(None, 22).render('ТОППЕР', True, 'aquamarine2'), (419, 180))
-                    screen.blit(pygame.font.Font(None, 22).render('ПЛАНЕТА', True, 'aquamarine2'), (416, 350))
+                    pygame.draw.line(screen, color, (412, 200), (488, 200), 3)
+                    pygame.draw.line(screen, color, (412, 340), (488, 340), 3)
+                    screen.blit(pygame.font.Font(None, 22).render('ТОППЕР', True, color), (419, 180))
+                    screen.blit(pygame.font.Font(None, 22).render('ПЛАНЕТА', True, color), (416, 350))
                     if push:
                         sounds.play()
                         n = 2
                 if 540 < pos[0] < 720:
                     screen.blit(pygame.font.Font(None, 29).render('ТРУДНО', True, 'orange'), (485, 50))
-                    pygame.draw.line(screen, 'aquamarine2', (613, 200), (669, 200), 3)
-                    pygame.draw.line(screen, 'aquamarine2', (613, 340), (669, 340), 3)
-                    screen.blit(pygame.font.Font(None, 22).render('ФЕРИТАТИС', True, 'aquamarine2'), (595, 180))
-                    screen.blit(pygame.font.Font(None, 22).render('ГАЗОВЫЙ', True, 'aquamarine2'), (603, 350))
-                    screen.blit(pygame.font.Font(None, 22).render('ГИГАНТ', True, 'aquamarine2'), (612, 370))
+                    pygame.draw.line(screen, color, (613, 200), (669, 200), 3)
+                    pygame.draw.line(screen, color, (613, 340), (669, 340), 3)
+                    screen.blit(pygame.font.Font(None, 22).render('ФЕРИТАТИС', True, color), (595, 180))
+                    screen.blit(pygame.font.Font(None, 22).render('ГАЗОВЫЙ', True, color), (603, 350))
+                    screen.blit(pygame.font.Font(None, 22).render('ГИГАНТ', True, color), (612, 370))
                     if push:
                         sounds.play()
                         n = 3
                 if 720 < pos[0] < 900:
                     screen.blit(pygame.font.Font(None, 29).render('НЕВОЗМОЖНО', True, 'red1'), (465, 50))
-                    pygame.draw.line(screen, 'aquamarine2', (820, 175), (876, 175), 3)
-                    pygame.draw.line(screen, 'aquamarine2', (820, 365), (876, 365), 3)
-                    screen.blit(pygame.font.Font(None, 22).render('РАПТУС', True, 'aquamarine2'), (817, 155))
-                    screen.blit(pygame.font.Font(None, 22).render('ЗВЕЗДА', True, 'aquamarine2'), (817, 375))
+                    pygame.draw.line(screen, color, (820, 175), (876, 175), 3)
+                    pygame.draw.line(screen, color, (820, 365), (876, 365), 3)
+                    screen.blit(pygame.font.Font(None, 22).render('РАПТУС', True, color), (817, 155))
+                    screen.blit(pygame.font.Font(None, 22).render('ЗВЕЗДА', True, color), (817, 375))
                     if push:
                         sounds.play()
                         n = 4
@@ -98,7 +100,4 @@ def difficulty_levels():
         push = False
         pygame.display.flip()
         clock.tick(15)
-
-
-print(difficulty_levels())
 
