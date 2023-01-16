@@ -1,0 +1,48 @@
+{
+  "button1": {
+    "misc": {
+      "shape": "rounded_rectangle",
+      "shape_corner_radius": "5",
+      "border_width": "1",
+      "shadow_width": "2"
+    },
+    "colours": {
+      "normal_text": "#97f5fb",
+      "normal_bg": "#47668A",
+      "normal_border": "#47668A"
+    }
+  },
+  "button2": {
+    "misc": {
+      "shape": "rounded_rectangle",
+      "shape_corner_radius": "5",
+      "border_width": "1",
+      "shadow_width": "2"
+    },
+    "colours": {
+      "normal_text": "#97f5fb"
+    }
+  },
+  "button3": {
+    "misc": {
+      "shape": "rounded_rectangle",
+      "shape_corner_radius": "5",
+      "border_width": "1",
+      "shadow_width": "2"
+    },
+    "colours": {
+      "normal_text": "#97f5fb"
+    }
+  },
+  "line": {
+    "misc": {
+      "shape": "rounded_rectangle",
+      "shape_corner_radius": "5",
+      "border_width": "1",
+      "shadow_width": "2"
+    },
+    "colours": {
+      "normal_text": "#97f5fb"
+    }
+  }
+}

@@ -23,10 +23,34 @@ def record():
     font = pygame.font.Font('sprites_Back/Fifaks10Dev1.ttf', 40).render('Как вас зовут?', True, (106, 240, 249))
     pygame.mouse.set_cursor((0, 0), pygame.image.load('data/cur.png'))
 
-    manag = pygame_gui.UIManager((1080, 540))
+    manag = pygame_gui.UIManager((1080, 540), 'data/theme_for_buttons.json')
+    manag.add_font_paths('Faks', 'sprites_Back/Fifaks10Dev1.ttf')
+    manag.preload_fonts([{
+        'name': 'Faks',
+        'html_size': 4,
+        'style': 'regular'
+    }])
     line_edit = pygame_gui.elements.UITextEntryLine(
         relative_rect=pygame.Rect(290, 162, 500, 50),
-        manager=manag
+        manager=manag, object_id='line'
+    )
+    button_1 = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect(415, 220, 250, 50),
+        text='далее',
+        manager=manag,
+        object_id='button1'
+    )
+    button_2 = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect(415, 280, 250, 50),
+        text='В главное меню',
+        manager=manag,
+        object_id='button2'
+    )
+    pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect(415, 340, 250, 50),
+        text='Выбрать сложность',
+        manager=manag,
+        object_id='button3'
     )
 
     while True:
@@ -36,9 +60,8 @@ def record():
         for e in pygame.event.get():
             if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
                 close()
-            if e.type == pygame.USEREVENT:
-                if e.type == pygame_gui.UI_TEXT_ENTRY_FINISHED:
-                    print(e.text)
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_RETURN:
+                print(line_edit.get_text())
 
             manag.process_events(e)
         manag.update(t_delta)

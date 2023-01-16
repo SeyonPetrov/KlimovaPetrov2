@@ -9,6 +9,7 @@ size = (1080, 540)
 screen = display.set_mode(size, pygame.NOFRAME)
 font = font.Font('sprites_Back/Fifaks10Dev1.ttf', 40)
 objects = []
+LAYER = 0
 
 
 class Button:
@@ -42,8 +43,9 @@ class Button:
 
                     self.onclickFunction()
                 elif not self.alreadyPressed:
-                    self.onclickFunction()
+
                     self.alreadyPressed = True
+                    self.onclickFunction()
             else:
                 self.alreadyPressed = False
 
@@ -91,40 +93,42 @@ def menu():
     clock = pygame.time.Clock()
     mus = pygame.mixer.Sound('sprites_Back/Музыка/Меню.mp3')
     pygame.mouse.set_cursor((0, 0), pygame.image.load('data/cur.png'))
-    #mus.play()
+    mus.play()
 
-    run = True
-    while run:
+    while True:
         for i in event.get():
             if i.type == pygame.KEYDOWN:
-                run = False
+                my_funt()
 
         screen.blit(menu_bc, (0, 0))
         Button(410, 100, start_layers, False,'sprites_Back/Играть.png', 'sprites_Back/Играть2.png',
                'sprites_Back/Играть1.png')
-        Button(410, 200, myFunt, False, 'sprites_Back/Выход.png', 'sprites_Back/Выход1.png',
+        Button(410, 200, my_funt, False, 'sprites_Back/Выход.png', 'sprites_Back/Выход1.png',
                'sprites_Back/Выход.png')
         AnimatedSprite("sprites_Back/Moon", 800, 320, 60, (180, 180))
 
-        for object in objects:
-            object.process()
+        for obj in objects:
+            obj.process()
         display.update()
-    clock.tick(20)
-    quit()
+        clock.tick(20)
 
 
 def start_layers():
-    myFunt()
-    return lp.difficulty_levels()
+    mus.stop()
+    my_funt(True)
 
 
-def myFunt():
-    global run
-    run = False
+def my_funt(from_layers=False):
+    global LAYER
+    if from_layers:
+        LAYER = lp.difficulty_levels()
+    pygame.quit()
+    sys.exit()
 
 
-print(menu())
-
+menu()
+print(LAYER)
+print(12323)
 
 
 
