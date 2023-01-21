@@ -2,6 +2,8 @@ import pygame.image
 from pygame import *
 import sys
 import layers_planets as lp
+import recording as rec
+import rocket as rok
 
 init()
 
@@ -9,16 +11,15 @@ size = (1080, 540)
 screen = display.set_mode(size, pygame.NOFRAME)
 font = font.Font('sprites_Back/Fifaks10Dev1.ttf', 40)
 objects = []
-LAYER = 0
 
 
 class Button:
-    def __init__(self, x, y, onclickFunction=None, onePress=False, norm='', hov='', spr=''):
+    def __init__(self, x, y, onclick_function=None, one_press=False, norm='', hov='', spr=''):
 
         self.x = x
         self.y = y
-        self.onclickFunction = onclickFunction
-        self.onePress = onePress
+        self.onclickFunction = onclick_function
+        self.onePress = one_press
         self.alreadyPressed = False
         self.fillColors = {
             'normal': norm,
@@ -32,20 +33,20 @@ class Button:
         objects.append(self)
 
     def process(self):
-        mousePos = pygame.mouse.get_pos()
+        mouse_pos = pygame.mouse.get_pos()
         menu_bc1 = pygame.image.load(self.fillColors['normal'])
 
-        if self.buttonRect.collidepoint(mousePos):
+        if self.buttonRect.collidepoint(mouse_pos):
             menu_bc1 = pygame.image.load(self.fillColors['hover'])
             if pygame.mouse.get_pressed(num_buttons=3)[0]:
                 menu_bc1 = pygame.image.load(self.fillColors['pressed'])
                 if self.onePress:
 
-                    self.onclickFunction()
+                    return self.onclickFunction()
                 elif not self.alreadyPressed:
 
                     self.alreadyPressed = True
-                    self.onclickFunction()
+                    return self.onclickFunction()
             else:
                 self.alreadyPressed = False
 
@@ -56,9 +57,9 @@ class Button:
         screen.blit(menu_bc1, (self.x, self.y))
 
 
-def load_image(name, colorkey=None):
-    image = pygame.image.load(name)
-    return image
+def load_image(name):
+    im = pygame.image.load(name)
+    return im
 
 
 class AnimatedSprite(pygame.sprite.Sprite):
@@ -108,27 +109,27 @@ def menu():
         AnimatedSprite("sprites_Back/Moon", 800, 320, 60, (180, 180))
 
         for obj in objects:
-            obj.process()
+            n = obj.process()
+            if n:
+                return n
         display.update()
         clock.tick(20)
 
 
 def start_layers():
     mus.stop()
-    my_funt(True)
+    return my_funt(True)
 
 
 def my_funt(from_layers=False):
-    global LAYER
     if from_layers:
-        LAYER = lp.difficulty_levels()
-    pygame.quit()
-    sys.exit()
+        name = rec.record()
+    else:
+        pygame.quit()
+        sys.exit()
+    if name:
+        return name, lp.difficulty_levels(), rok.rocket()
 
-
-menu()
-print(LAYER)
-print(12323)
 
 
 

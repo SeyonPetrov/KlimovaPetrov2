@@ -35,25 +35,28 @@ def record():
         manager=manag, object_id='line'
     )
     button_1 = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect(415, 220, 250, 50),
-        text='далее',
+        relative_rect=pygame.Rect(415, 340, 250, 50),
+        text='ВЫЙТИ',
         manager=manag,
         object_id='button1'
     )
     button_2 = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect(415, 280, 250, 50),
-        text='В главное меню',
+        text='В ГЛАВНОЕ МЕНЮ',
         manager=manag,
         object_id='button2'
     )
-    pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect(415, 340, 250, 50),
-        text='Выбрать сложность',
+    button_3 = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect(415, 220, 250, 50),
+        text='ВЫБРАТЬ СЛОЖНОСТЬ',
         manager=manag,
         object_id='button3'
     )
-
-    while True:
+    fontt = pygame.font.Font('sprites_Back/Fifaks10Dev1.ttf', 40)
+    text = fontt.render('ВВЕДИТЕ СВОЕ ИМЯ', True, 'red')
+    no_name = False
+    run = True
+    while run:
         t_delta = clock.tick(60) / 1000.0
         screen.blit(fon, (0, 0))
         screen.blit(font, (410, 100))
@@ -63,7 +66,21 @@ def record():
             if e.type == pygame.KEYDOWN and e.key == pygame.K_RETURN:
                 print(line_edit.get_text())
 
+            if button_1.check_pressed():
+                close()
+
+            if button_2.check_pressed():
+                return None
+
+            if button_3.check_pressed():
+                if not line_edit.get_text():
+                    no_name = True
+                else:
+                    return line_edit.get_text()
+
             manag.process_events(e)
+        if no_name:
+            screen.blit(text, (380, 450))
         manag.update(t_delta)
         manag.draw_ui(screen)
         pygame.display.flip()
@@ -73,5 +90,3 @@ def close():
     pygame.quit()
     sys.exit()
 
-
-record()

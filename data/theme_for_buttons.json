@@ -8,8 +8,7 @@
     },
     "colours": {
       "normal_text": "#97f5fb",
-      "normal_bg": "#47668A",
-      "normal_border": "#47668A"
+      "hovered_text": "#97f5fb"
     }
   },
   "button2": {
@@ -20,7 +19,8 @@
       "shadow_width": "2"
     },
     "colours": {
-      "normal_text": "#97f5fb"
+      "normal_text": "#97f5fb",
+      "hovered_text": "#97f5fb"
     }
   },
   "button3": {
@@ -31,7 +31,8 @@
       "shadow_width": "2"
     },
     "colours": {
-      "normal_text": "#97f5fb"
+      "normal_text": "#97f5fb",
+      "hovered_text": "#97f5fb"
     }
   },
   "line": {
