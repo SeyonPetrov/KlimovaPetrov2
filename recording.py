@@ -15,9 +15,11 @@ def load_image(name):
 
 
 def record():
+    pygame.mixer.pre_init(44100, -16, 1, 512)
     pygame.init()
+    mix = pygame.mixer.music
     size = width, height = 1080, 540
-    fon = pygame.transform.scale(load_image('fon2.png'), (1080, 540))
+    fon = pygame.transform.scale(load_image('fon31.png'), (1080, 540))
     screen = pygame.display.set_mode(size, pygame.NOFRAME)
     clock = pygame.time.Clock()
     font = pygame.font.Font('sprites_Back/Fifaks10Dev1.ttf', 40).render('Как вас зовут?', True, (106, 240, 249))
@@ -56,6 +58,9 @@ def record():
     text = fontt.render('ВВЕДИТЕ СВОЕ ИМЯ', True, 'red')
     no_name = False
     run = True
+    mix.load('data/space.mp3')
+    mix.set_volume(0.09)
+    mix.play(-1)
     while run:
         t_delta = clock.tick(60) / 1000.0
         screen.blit(fon, (0, 0))

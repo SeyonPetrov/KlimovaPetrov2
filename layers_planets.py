@@ -41,6 +41,7 @@ def difficulty_levels():
         all_time = pygame.time.get_ticks()
         for e in pygame.event.get():
             if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
+                mix.stop()
                 close_wind()
             if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                 push = True

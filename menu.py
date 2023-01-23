@@ -5,6 +5,7 @@ import layers_planets as lp
 import recording as rec
 import rocket as rok
 
+mixer.pre_init(44100, -16, 1, 512)
 init()
 
 size = (1080, 540)
@@ -89,16 +90,18 @@ def menu():
     global run, mus
     flag1 = True
     flag2 = True
-    menu_bc = pygame.image.load('sprites_Back/fon2.png')
+    menu_bc = pygame.image.load('sprites_Back/fon21.png')
     menu_bc = pygame.transform.scale(menu_bc, (1080, 540))
     clock = pygame.time.Clock()
-    mus = pygame.mixer.Sound('sprites_Back/Музыка/Меню.mp3')
+    mus = pygame.mixer.music
+    mus.load('data/space.mp3')
+    mus.set_volume(0.09)
+    mus.play(-1)
     pygame.mouse.set_cursor((0, 0), pygame.image.load('data/cur.png'))
-    mus.play()
 
     while True:
         for i in event.get():
-            if i.type == pygame.KEYDOWN:
+            if i.type == pygame.KEYDOWN and i.key == K_ESCAPE:
                 my_funt()
 
         screen.blit(menu_bc, (0, 0))
@@ -129,7 +132,6 @@ def my_funt(from_layers=False):
         sys.exit()
     if name:
         return name, lp.difficulty_levels(), rok.rocket()
-
 
 
 

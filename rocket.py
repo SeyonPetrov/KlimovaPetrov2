@@ -16,7 +16,12 @@ def load_image(name):
 
 def rocket():
     clock = pygame.time.Clock()
+    pygame.mixer.pre_init(44100, -16, 1, 512)
     pygame.init()
+    mix = pygame.mixer.music
+    mix.load('data/roket.mp3')
+    mix.set_volume(0.09)
+    mix.play(-1)
     pygame.display.set_caption('game base')
     screen = pygame.display.set_mode((1080, 540), pygame.NOFRAME)
 
@@ -60,6 +65,7 @@ def rocket():
         group.draw(screen)
         spr_jet.update()
         if spr_jet.rect.y <= -400:
+            mix.stop()
             return None
         pygame.display.flip()
         clock.tick(30)
