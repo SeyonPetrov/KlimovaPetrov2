@@ -38,6 +38,7 @@ class Mobs(sprite.Sprite):
         self.xp = 0
         self.xp += self.normal_xp
         self.damage = randint(20 * self.index, 50 * self.index)
+        self.h_move = []
         self.spr = []
         self.current = 0
         self.mob = randint(1, 2)
@@ -59,16 +60,24 @@ class Mobs(sprite.Sprite):
         if self.rect.y > 550:
             self.xp -= 10000
 
+    def hero_moves(self, spisok):
+        self.h_move = spisok
+
+    def hit_box(self, sur):
+        xp_proz = self.xp / self.normal_xp
+        draw.rect(sur, 'red', (720, 20, int(340 * xp_proz), 15))
+        draw.rect(sur, 'white', (713, 18, 357, 19), 3)
+        text = font.Font('sprites_Back/Fifaks10Dev1.ttf', 40).render('МОНСТР', True, 'red')
+        sur.blit(text, (1070 - (357 - ((357 - text.get_width()) // 2)), 35))
+
     def move(self, fly=False):
         orientation = randint(0, 2)
         jump = randint(0, 1)
-        attack = randint(0, 3)
-        if attack:
-            self.n += 1
-        if 0 < self.n < len(os.listdir(f'data/mobs/{self.mob}/attack')):
-            attack = True
+        attack = randint(0, 4)
+        if attack % 2 != 0:
+            attack = 1
         else:
-            attack = False
+            attack = 0
 
         if attack and not fly:
             self.spr.clear()
@@ -126,9 +135,13 @@ class Mobs(sprite.Sprite):
 
         for i in range(len(self.spr)):
             self.current += 1
-            if self.current >= len(self.spr):
+            if self.current >= 8:
                 self.current = 0
             self.image = self.spr[self.current]
             self.mask = mask.from_surface(self.image)
         self.flag = False
         self.on_place()
+        if self.hero_moves:
+            if 'a1' in self.h_move or 'a2' in self.h_move:
+                if sprite.collide_mask(self, self.hero):
+                    self.take_damage(self.hero.my_damage())

@@ -15,6 +15,12 @@ screen = display.set_mode((1080, 540), NOFRAME)
 clock = time.Clock()
 flag_for_move = []
 from_start_time = 0
+pain_h = mixer.Sound('data/hero_dam.wav')
+hero_death = mixer.Sound('data/hero_dead.wav')
+mob_death = mixer.Sound('data/mod_dead.wav')
+mob_death.set_volume(0.2)
+hero_death.set_volume(0.3)
+pain_h.set_volume(0.2)
 name, lvl, non = menu.menu()
 
 
@@ -39,10 +45,11 @@ def recording(p_name, level, record):
 class Hero(sprite.Sprite):
     def __init__(self, xp, pp, x, y):
         super().__init__()
+        self.moby = 0
         self.rect = Rect(x, y, 100, 74)
-        normal_xp = xp
+        self.normal_xp = xp
         self.xp = 0
-        self.xp += normal_xp
+        self.xp += self.normal_xp
         self.punch_power = pp
         self.spr = []
         self.num_of_spr = 0
@@ -53,6 +60,7 @@ class Hero(sprite.Sprite):
         self.mask = mask.from_surface(self.image)
 
     def take_damage(self, punch_power):
+        pain_h.play()
         self.xp = self.xp - punch_power
 
     def my_damage(self):
@@ -68,7 +76,14 @@ class Hero(sprite.Sprite):
         if self.rect.y > 550:
             self.xp -= 10000
 
-    def move(self, fly=False, st=False):
+    def hit_box(self, sur):
+        xp_proz = self.xp / self.normal_xp
+        draw.rect(sur, 'greenyellow', (30, 20, int(340 * xp_proz), 15))
+        draw.rect(sur, 'white', (23, 18, 357, 19), 3)
+        text = font.Font('sprites_Back/Fifaks10Dev1.ttf', 40).render('САЛАС', True, 'greenyellow')
+        sur.blit(text, ((380 - text.get_width()) // 2, 37))
+
+    def move(self, fly=False):
         if fly:
             self.spr.clear()
             for i in range(len(os.listdir('data/jump'))):
@@ -108,7 +123,7 @@ class Hero(sprite.Sprite):
                         flag_for_move.remove('u')
 
         if 'l' in flag_for_move and not fly:
-            if 'a1' not in flag_for_move and 'a2' not in flag_for_move and not st:
+            if 'a1' not in flag_for_move and 'a2' not in flag_for_move:
                 self.spr.clear()
                 for i in range(len(os.listdir('data/run'))):
                     self.spr.append(transform.flip(load_image(f'run/{i}.png'), True, False))
@@ -134,7 +149,7 @@ class Hero(sprite.Sprite):
 
         for i in range(len(self.spr)):
             self.num_of_spr += 1
-            if self.num_of_spr >= len(self.spr):
+            if self.num_of_spr >= 3:
                 self.num_of_spr = 0
             self.image = self.spr[self.num_of_spr]
             self.mask = mask.from_surface(self.image)
@@ -158,12 +173,17 @@ class Line(sprite.Sprite):
 
 
 def game():
+    if lvl <= 2:
+        mus = 'data/mortal.mp3'
+    else:
+        mus = 'data/silver.mp3'
     mix = mixer.music
-    mix.load('data/mortal.mp3')
+    mix.load(mus)
     mix.set_volume(0.09)
     mix.play(-1)
+    death = 0
     mouse.set_visible(False)
-    hero = Hero(1000, 10, 300, 300)
+    hero = Hero(10000, 100, 300, 300)
     group_for_hero = sprite.Group(hero)
     cam = camera.Camera()
     pol = osn.Mountain(0, 0, lvl, True)
@@ -171,7 +191,7 @@ def game():
     grass = [pol]
     grass_group = sprite.Group()
     grass_group.add(pol)
-    mob = mobs.Mobs(400, 200, lvl, hero)
+    mob = mobs.Mobs(1000, 200, lvl, hero)
     mobs_group = sprite.Group(mob)
     start_line = StartBorder()
     st = sprite.Group(start_line)
@@ -251,11 +271,10 @@ def game():
         for s in group_for_hero:
             if not sprite.collide_mask(s, line):
                 hero.move(fly=True)
-            if sprite.collide_mask(s, start_line):
-                hero.move(st=True)
         draw.circle(screen, 'red', (2100, 200), 5)
         group_for_hero.draw(screen)
         hero.move()
+        hero.hit_box(screen)
         if flag:
             for s in grass:
                 cam.shift(s)
@@ -271,15 +290,22 @@ def game():
             if not sprite.collide_mask(s, line):
                 mob.move(True)
         mob.move()
+        mob.hero_moves(flag_for_move)
+        mob.hit_box(screen)
         if hero.my_health() <= 0:
+            death += 1
             end = True
         if mob.mob_health() <= 0:
+            mob_death.play()
             mobs_group.remove(mob)
             mob = mobs.Mobs(1090, 200, lvl, hero)
             mobs_group.add(mob)
             score += 10
         if end:
             ending(score)
+        if death == 1:
+            pain_h.set_volume(0)
+            hero_death.play()
         display.flip()
         clock.tick(10)
 

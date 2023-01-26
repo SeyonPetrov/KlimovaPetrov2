@@ -4,6 +4,7 @@ import sys
 import layers_planets as lp
 import recording as rec
 import rocket as rok
+import recorders as champ
 
 mixer.pre_init(44100, -16, 1, 512)
 init()
@@ -107,8 +108,10 @@ def menu():
         screen.blit(menu_bc, (0, 0))
         Button(410, 100, start_layers, False,'sprites_Back/Играть.png', 'sprites_Back/Играть2.png',
                'sprites_Back/Играть1.png')
-        Button(410, 200, my_funt, False, 'sprites_Back/Выход.png', 'sprites_Back/Выход1.png',
+        Button(410, 300, my_funt, False, 'sprites_Back/Выход.png', 'sprites_Back/Выход1.png',
                'sprites_Back/Выход.png')
+        Button(410, 200, recorders, False, 'sprites_Back/успехи.png', 'sprites_Back/успехи2.png',
+               'sprites_Back/успехи.png')
         AnimatedSprite("sprites_Back/Moon", 800, 320, 60, (180, 180))
 
         for obj in objects:
@@ -122,6 +125,10 @@ def menu():
 def start_layers():
     mus.stop()
     return my_funt(True)
+
+
+def recorders():
+    champ.champs()
 
 
 def my_funt(from_layers=False):
