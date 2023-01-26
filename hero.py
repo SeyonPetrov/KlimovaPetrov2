@@ -134,7 +134,7 @@ class Hero(sprite.Sprite):
 
         for i in range(len(self.spr)):
             self.num_of_spr += 1
-            if self.num_of_spr >= len(self.spr):
+            if self.num_of_spr >= 4:
                 self.num_of_spr = 0
             self.image = self.spr[self.num_of_spr]
             self.mask = mask.from_surface(self.image)
@@ -179,6 +179,7 @@ def game():
     line = Line()
     line_g = sprite.Group(line)
     score = 0
+    time1 = 1
 
     while True:
         screen.blit(load_image(f'{lvl}.png'), (0, 0))
@@ -261,6 +262,7 @@ def game():
                 cam.shift(s)
             cam.shift(start_line)
             cam.shift(mob)
+
         grass_group.draw(screen)
         if grass[-1].rect.x < 0:
             t = osn.Mountain(grass[-1].rect.x + 1081, 0, lvl, False)
@@ -271,12 +273,27 @@ def game():
             if not sprite.collide_mask(s, line):
                 mob.move(True)
         mob.move()
+        hit = mob.rect[0] - hero.rect[0]
+        if (hit <= 30 and hit >= 0) or (hit < 0 and hit >= -100):
+            time1 += 1
+            if time1 % 50 > 45:
+                at = transform.scale(load_image('Предупреждение.png'), (100, 100))
+                screen.blit(at, (300, 320))
+            if time1 % 50 == 0 and hero.rect[1] == 372:
+                print(hero.my_health())
+                mob.n = 0
+            if 'a1' in flag_for_move:
+                time1 += 7
+                mob.take_damage(30)
+            if 'a2' in flag_for_move:
+                mob.take_damage(40)
         if hero.my_health() <= 0:
             end = True
         if mob.mob_health() <= 0:
             mobs_group.remove(mob)
             mob = mobs.Mobs(1090, 200, lvl, hero)
             mobs_group.add(mob)
+            time1 = 1
             score += 10
         if end:
             ending(score)
