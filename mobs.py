@@ -63,11 +63,11 @@ class Mobs(sprite.Sprite):
         orientation = randint(0, 2)
         jump = randint(0, 1)
         attack = randint(0, 3)
-        if self.rect.x < 250:
+        if self.rect.x < 220:
             orientation = 1
-        if self.rect.x >= 250:
+        if self.rect.x >= 220:
             orientation = 0
-        if self.rect.x >= 240 and self.rect.x < 280:
+        if self.rect.x >= 210 and self.rect.x < 230:
             orientation = 2
         if attack:
             self.n += 2

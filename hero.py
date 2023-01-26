@@ -284,7 +284,7 @@ def game():
                 mob.n = 0
             if 'a1' in flag_for_move:
                 time1 += 7
-                mob.take_damage(30)
+                mob.take_damage(5)
             if 'a2' in flag_for_move:
                 mob.take_damage(40)
         if hero.my_health() <= 0:
